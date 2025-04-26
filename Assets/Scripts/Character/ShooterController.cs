@@ -24,7 +24,7 @@ public class ShooterController : MonoBehaviour
     }
 
     
-    void Update()
+    void FixedUpdate()
     {
         CharacterMoving();
     }
@@ -40,14 +40,14 @@ public class ShooterController : MonoBehaviour
         charAnimator.SetFloat("Speed", movDirection.magnitude);
         
 
-        if (movDirection.magnitude > 0)
+        if (movDirection.sqrMagnitude > 0)
         {
             charAnimator.SetBool("Shoot", false);
             Vector3 movement = movDirection.normalized * speed;
             charController.SimpleMove(movement);
 
             Quaternion targetRotation = Quaternion.LookRotation(relativeMovDirection);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotateSpeed);
         }
     }
 }
